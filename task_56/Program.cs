@@ -1,76 +1,56 @@
-﻿// Задача 56: Задайте прямоугольный двумерный массив. Напишите программу, которая будет находить строку с наименьшей суммой элементов.
+﻿Console.WriteLine("Введите количество строк: ");
+int rows = Convert.ToInt32(Console.ReadLine());
+Console.WriteLine("Введите количество столбцов: ");
+int columns = Convert.ToInt32(Console.ReadLine());
+int[,] array = GetArray(rows, columns, 0, 10);
+PrintArray(array);
 
-int sumStr1Arr = 0;
-int sumStr2Arr = 0;
-int sumStr3Arr = 0;
-int sumStr4Arr = 0;
+Console.WriteLine($"Строка с наименьшей суммой - {GetRowNumber(array)}");
 
-int[,] GetArray(int size, int size2, int minValue, int maxValue)
+int[,] GetArray(int m, int n, int min, int max)
 {
-    int[,] array2d = new int[size, size2];
-    for (int i = 0; i < size; i++)
+    int[,] result = new int[m, n];
+    for (int i = 0; i < m; i++)
     {
-        for (int j = 0; j < size2; j++)
+        for (int j = 0; j < n; j++)
         {
-            array2d[i, j] = new Random().Next(minValue, maxValue);
+            result[i, j] = new Random().Next(min, max + 1);
         }
     }
-    return array2d;
+    return result;
 }
-
-int[,] array = GetArray(4, 5, 1, 10);
-
-void PrintArray()
+void PrintArray(int[,] array)
 {
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < array.GetLength(0); i++)
     {
-        for (int j = 0; j < 5; j++)
+        for (int j = 0; j < array.GetLength(1); j++)
         {
-            Console.Write($"|{array[i, j]}|");
+            Console.Write($"{array[i, j]} ");
         }
         Console.WriteLine();
     }
 }
-PrintArray();
-Console.WriteLine();
-
-
-for (int j = 0; j < 5; j++)
+int GetRowNumber(int[,] array)
 {
-    for (int i = 1; i < 2; i++)
+    int row = 0;
+    int minsum = 0;
+    for (int i = 0; i < array.GetLength(1); i++)
     {
-        sumStr1Arr += array[i, j];
+        minsum = minsum + array[0, i];
     }
-}
-Console.WriteLine(sumStr1Arr);
-Console.WriteLine();
 
-for (int j = 0; j < 5; j++)
-{
-    for (int i = 2; i < 3; i++)
+    for (int i = 1; i < array.GetLength(0); i++)
     {
-        sumStr2Arr += array[i, j];
+        int sum = 0;
+        for (int j = 0; j < array.GetLength(1); j++)
+        {
+            sum = sum + array[i, j];
+        }
+        if (minsum > sum)
+        {
+            minsum = sum;
+            row = i;
+        }
     }
+    return row;
 }
-Console.WriteLine(sumStr2Arr);
-Console.WriteLine();
-
-for (int j = 0; j < 5; j++)
-{
-    for (int i = 3; i < 4; i++)
-    {
-        sumStr3Arr += array[i, j];
-    }
-}
-Console.WriteLine(sumStr3Arr);
-Console.WriteLine();
-
-for (int j = 0; j < 5; j++)
-{
-    for (int i = 4; i == 4; i++)
-    {
-        sumStr4Arr += array[i, j];
-    }
-}
-Console.WriteLine(sumStr4Arr);
-Console.WriteLine();
